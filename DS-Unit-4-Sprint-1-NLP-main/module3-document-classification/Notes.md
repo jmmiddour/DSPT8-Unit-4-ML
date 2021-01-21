@@ -156,18 +156,30 @@ Grid Search Test Accuracy 0.7200488997555012
 
 **Score received on the public leaderboard: 0.72549**
 
-### Submission 3: Word Embeddings
+### Submission 3: Word Embeddings w/ spaCy and GBC
 
+```
+def get_vectors(docs):
+    return [nlp(doc).vector for doc in docs]
 ```
 
 ```
+train_vec = get_vectors(clean_train['cleaned'])
 
+gbc = GradientBoostingClassifier(n_estimators=96,
+                                max_depth=15,
+                                min_samples_leaf=13,
+                                random_state=97)
+
+gbc.fit(train_vec, clean_train['ratingCategory'])
 ```
 
 ```
+gbc_pred = gbc.predict(train_vec)
+accuracy_score(clean_train['ratingCategory'], gbc_pred)
 
-```
-
+Accuracy Score: 0.9997553217518963
+    ^--- This because trained on full train dataset.
 ```
 
 **Score received on the public leaderboard: **
@@ -176,11 +188,9 @@ Grid Search Test Accuracy 0.7200488997555012
 
 ```
 
-
 ```
 
 ```
-
 
 ```
 
